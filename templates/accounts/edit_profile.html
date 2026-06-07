@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+    <h1>Editar perfil</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+
+        <button type="submit" name="profile_submit">Salvar perfil</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Alterar senha</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ password_form.as_p }}
+
+        <button type="submit" name="password_submit">Alterar senha</button>
+    </form>
+</section>
+{% endblock %}

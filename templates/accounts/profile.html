@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card profile-card">
+    {% if profile_user.profile.avatar %}
+        <img src="{{ profile_user.profile.avatar.url }}" alt="Foto de perfil" class="avatar">
+    {% else %}
+        <div class="avatar-placeholder">👤</div>
+    {% endif %}
+
+    <h1>{{ profile_user.profile.display_name|default:profile_user.username }}</h1>
+    <p>@{{ profile_user.username }}</p>
+
+    {% if profile_user.profile.bio %}
+        <p>{{ profile_user.profile.bio }}</p>
+    {% endif %}
+
+    <p>
+        <strong>{{ followers_count }}</strong> seguidores |
+        <strong>{{ following_count }}</strong> seguindo
+    </p>
+
+    {% if user == profile_user %}
+        <a href="{% url 'edit_profile' %}" class="button-link">Editar perfil</a>
+    {% else %}
+        <form method="post" action="{% url 'follow_toggle' profile_user.username %}">
+            {% csrf_token %}
+            {% if is_following %}
+                <button type="submit">Deixar de seguir</button>
+            {% else %}
+                <button type="submit">Seguir</button>
+            {% endif %}
+        </form>
+    {% endif %}
+</section>
+{% endblock %}

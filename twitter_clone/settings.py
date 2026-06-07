@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # apps do projeto
-    'accounts',
+    'accounts.apps.AccountsConfig',
     'posts',
 ]
 
