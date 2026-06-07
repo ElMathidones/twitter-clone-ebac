@@ -44,6 +44,9 @@ def profile_view(request, username):
     followers_count = profile_user.followers.count()
     following_count = profile_user.following.count()
     posts = profile_user.posts.all()
+    liked_post_ids = set(
+        request.user.likes.values_list('post_id', flat=True)
+    )
 
     return render(request, 'accounts/profile.html', {
         'profile_user': profile_user,
@@ -51,6 +54,7 @@ def profile_view(request, username):
         'followers_count': followers_count,
         'following_count': following_count,
         'posts': posts,
+        'liked_post_ids': liked_post_ids,
     })
 
 

@@ -187,3 +187,16 @@ button,
 .danger-button {
     background: #dc3545;
 }
+
+.comments-list {
+    margin-top: 24px;
+}
+
+.comment-card {
+    border-top: 1px solid #ddd;
+    padding: 16px 0;
+}
+
+.comment-card:first-of-type {
+    border-top: none;
+}

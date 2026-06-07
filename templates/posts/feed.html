@@ -33,6 +33,28 @@
                 </div>
 
                 <p class="post-content">{{ post.content|linebreaksbr }}</p>
+
+                <div class="post-actions">
+                    <form method="post" action="{% url 'post_like' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit">
+                            {% if post.id in liked_post_ids %}
+                                Descurtir
+                            {% else %}
+                                Curtir
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <a href="{% url 'post_detail' post.pk %}" class="button-link secondary">
+                        Comentários
+                    </a>
+                </div>
+
+                <p class="post-date">
+                    {{ post.likes.count }} curtida(s) · {{ post.comments.count }} comentário(s)
+                </p>
             </article>
         {% endfor %}
     {% else %}
