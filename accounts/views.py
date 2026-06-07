@@ -43,12 +43,14 @@ def profile_view(request, username):
 
     followers_count = profile_user.followers.count()
     following_count = profile_user.following.count()
+    posts = profile_user.posts.all()
 
     return render(request, 'accounts/profile.html', {
         'profile_user': profile_user,
         'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
+        'posts': posts,
     })
 
 

@@ -118,3 +118,72 @@ button,
     justify-content: center;
     font-size: 48px;
 }
+
+.post-card {
+    border-top: 1px solid #ddd;
+    padding: 16px 0;
+}
+
+.post-card:first-of-type {
+    border-top: none;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.post-header a {
+    color: #222;
+    text-decoration: none;
+}
+
+.post-header p {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.post-content {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.post-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.small-avatar,
+.small-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.small-avatar {
+    object-fit: cover;
+}
+
+.small-avatar-placeholder {
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondary {
+    background: #6c757d;
+}
+
+.danger,
+.danger-button {
+    background: #dc3545;
+}
