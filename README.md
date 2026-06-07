@@ -1,4 +1,4 @@
-# Twitter Clone EBAC
+# 🐦‍⬛Twitter Clone EBAC
 
 Projeto final do curso **Desenvolvedor Full Stack Python** da EBAC.
 
@@ -241,8 +241,9 @@ A cada push ou pull request, o workflow executa:
 Link do deploy:
 
 ```txt
-Adicionar link após publicação da aplicação.
+https://ElMathidones.pythonanywhere.com
 ```
+O projeto foi publicado no PythonAnywhere com suporte a arquivos estáticos, arquivos de mídia, upload de foto de perfil e variáveis de ambiente.
 
 ## Autor
 
