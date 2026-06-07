@@ -7,6 +7,8 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('api/', include('twitter_clone.api_urls')),
+
     path('login/', auth_views.LoginView.as_view(
         template_name='registration/login.html'
     ), name='login'),
