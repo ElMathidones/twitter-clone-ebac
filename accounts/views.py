@@ -63,6 +63,15 @@ def edit_profile_view(request):
     profile = request.user.profile
 
     if request.method == 'POST':
+        if 'remove_avatar' in request.POST:
+            if profile.avatar:
+                profile.avatar.delete(save=False)
+                profile.avatar = None
+                profile.save()
+
+            messages.success(request, 'Foto de perfil removida com sucesso.')
+            return redirect('edit_profile')
+
         if 'profile_submit' in request.POST:
             user_form = UserUpdateForm(request.POST, instance=request.user)
             profile_form = ProfileUpdateForm(

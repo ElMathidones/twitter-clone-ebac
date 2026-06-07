@@ -37,6 +37,13 @@ class ProfileUpdateForm(forms.ModelForm):
             'bio': 'Biografia',
             'avatar': 'Foto de perfil',
         }
+        widgets = {
+            'bio': forms.Textarea(attrs={
+                'rows': 5,
+                'class': 'bio-textarea',
+                'placeholder': 'Escreva uma breve biografia...',
+            }),
+        }
 
 
 class UserUpdateForm(forms.ModelForm):
