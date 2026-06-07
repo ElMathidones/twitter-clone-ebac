@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+    <article class="post-card">
+        <div class="post-header">
+            {% if post.author.profile.avatar %}
+                <img src="{{ post.author.profile.avatar.url }}" alt="Foto de perfil" class="small-avatar">
+            {% else %}
+                <div class="small-avatar-placeholder">👤</div>
+            {% endif %}
+
+            <div>
+                <a href="{% url 'profile' post.author.username %}">
+                    <strong>{{ post.author.profile.display_name|default:post.author.username }}</strong>
+                </a>
+                <p>@{{ post.author.username }} · {{ post.created_at|date:"d/m/Y H:i" }}</p>
+            </div>
+        </div>
+
+        <p class="post-content">{{ post.content|linebreaksbr }}</p>
+
+        <div class="post-actions">
+            <form method="post" action="{% url 'post_like' post.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit">
+                    {% if post.id in liked_post_ids %}
+                        Descurtir
+                    {% else %}
+                        Curtir
+                    {% endif %}
+                </button>
+            </form>
+
+            {% if user == post.author %}
+                <a href="{% url 'post_update' post.pk %}" class="button-link">Editar</a>
+                <a href="{% url 'post_delete' post.pk %}" class="button-link danger">Excluir</a>
+            {% endif %}
+        </div>
+
+        <p class="post-date">
+            {{ post.likes.count }} curtida(s) · {{ post.comments.count }} comentário(s)
+        </p>
+    </article>
+</section>
+
+<section class="card">
+    <h2>Comentários</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Comentar</button>
+    </form>
+
+    <div class="comments-list">
+        {% if comments %}
+            {% for comment in comments %}
+                <article class="comment-card">
+                    <div class="post-header">
+                        {% if comment.user.profile.avatar %}
+                            <img src="{{ comment.user.profile.avatar.url }}" alt="Foto de perfil" class="small-avatar">
+                        {% else %}
+                            <div class="small-avatar-placeholder">👤</div>
+                        {% endif %}
+
+                        <div>
+                            <a href="{% url 'profile' comment.user.username %}">
+                                <strong>{{ comment.user.profile.display_name|default:comment.user.username }}</strong>
+                            </a>
+                            <p>@{{ comment.user.username }} · {{ comment.created_at|date:"d/m/Y H:i" }}</p>
+                        </div>
+                    </div>
+
+                    <p>{{ comment.content|linebreaksbr }}</p>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>Ainda não há comentários nesta postagem.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

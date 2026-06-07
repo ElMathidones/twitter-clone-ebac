@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+    <h1>Feed</h1>
+
+    <form method="post" action="{% url 'post_create' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Publicar</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Postagens das pessoas que você segue</h2>
+
+    {% if posts %}
+        {% for post in posts %}
+            <article class="post-card">
+                <div class="post-header">
+                    {% if post.author.profile.avatar %}
+                        <img src="{{ post.author.profile.avatar.url }}" alt="Foto de perfil" class="small-avatar">
+                    {% else %}
+                        <div class="small-avatar-placeholder">👤</div>
+                    {% endif %}
+
+                    <div>
+                        <a href="{% url 'profile' post.author.username %}">
+                            <strong>{{ post.author.profile.display_name|default:post.author.username }}</strong>
+                        </a>
+                        <p>@{{ post.author.username }} · {{ post.created_at|date:"d/m/Y H:i" }}</p>
+                    </div>
+                </div>
+
+                <p class="post-content">{{ post.content|linebreaksbr }}</p>
+
+                <div class="post-actions">
+                    <form method="post" action="{% url 'post_like' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit">
+                            {% if post.id in liked_post_ids %}
+                                Descurtir
+                            {% else %}
+                                Curtir
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <a href="{% url 'post_detail' post.pk %}" class="button-link secondary">
+                        Comentários
+                    </a>
+                </div>
+
+                <p class="post-date">
+                    {{ post.likes.count }} curtida(s) · {{ post.comments.count }} comentário(s)
+                </p>
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>Você ainda não segue ninguém ou as pessoas seguidas ainda não publicaram nada.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+    <h1>Editar perfil</h1>
+
+    <form method="post" enctype="multipart/form-data" class="profile-edit-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ user_form.email.label_tag }}
+            {{ user_form.email }}
+            {{ user_form.email.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ profile_form.display_name.label_tag }}
+            {{ profile_form.display_name }}
+            {{ profile_form.display_name.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ profile_form.bio.label_tag }}
+            {{ profile_form.bio }}
+            {{ profile_form.bio.errors }}
+        </div>
+
+        <div class="form-group avatar-edit-area">
+            <label>Foto de perfil:</label>
+
+            {% if user.profile.avatar %}
+                <div class="current-avatar-box">
+                    <img src="{{ user.profile.avatar.url }}" alt="Foto de perfil atual" class="edit-avatar-preview">
+
+                    <div class="avatar-actions">
+                        <button type="submit" name="remove_avatar" class="danger-button">
+                            Remover foto atual
+                        </button>
+                    </div>
+                </div>
+            {% else %}
+                <div class="avatar-empty-state">
+                    <div class="avatar-placeholder">👤</div>
+                    <p>Nenhuma foto de perfil enviada.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_avatar">Trocar foto de perfil:</label>
+            <input type="file" name="avatar" accept="image/*" id="id_avatar">
+            {{ profile_form.avatar.errors }}
+        </div>
+
+        <button type="submit" name="profile_submit">Salvar perfil</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Alterar senha</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ password_form.as_p }}
+
+        <button type="submit" name="password_submit">Alterar senha</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Clone EBAC</title>
+
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <a href="{% url 'feed' %}" class="logo">
+                <span class="logo-icon">✦</span>
+                Twitter Clone
+            </a>
+
+            <nav class="nav-links">
+                <button type="button" id="theme-toggle" class="theme-toggle">
+                    🌙 Tema escuro
+                </button>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'feed' %}">Feed</a>
+                    <a href="{% url 'profile' user.username %}">Meu perfil</a>
+                    <a href="{% url 'edit_profile' %}">Editar perfil</a>
+
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit">Sair</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Entrar</a>
+                    <a href="{% url 'signup' %}">Cadastrar</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        function updateThemeButton() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            if (themeToggle) {
+                themeToggle.textContent = isDark ? '☀️ Tema claro' : '🌙 Tema escuro';
+            }
+        }
+
+        updateThemeButton();
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function () {
+                const isDark = html.getAttribute('data-theme') === 'dark';
+
+                if (isDark) {
+                    html.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+
+                updateThemeButton();
+            });
+        }
+    </script>
+</body>
+</html>
